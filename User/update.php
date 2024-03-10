@@ -75,7 +75,7 @@ function updateProduct($userInput, $updatedParams){
 
             $data = [
                 'status' => '201',
-                'message' => 'User Created Successfully',
+                'message' => 'User Updated Successfully',
             ];
 
             return json_encode($data);
@@ -89,6 +89,16 @@ function updateProduct($userInput, $updatedParams){
             return json_encode( $data );
         }
     }
+}
+
+function error422($errorMessage){
+
+    $data = [
+        'status' => 422,
+        'message' => $errorMessage
+    ];
+
+    echo json_encode($data);
 }
 
 ?>

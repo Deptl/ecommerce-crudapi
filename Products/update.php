@@ -88,4 +88,14 @@ function updateProduct($productInput, $updatedParams){
     }
 }
 
+function error422($errorMessage){
+
+    $data = [
+        'status' => 422,
+        'message' => $errorMessage
+    ];
+
+    echo json_encode($data);
+}
+
 ?>
