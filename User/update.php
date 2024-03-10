@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(0);
+// error_reporting(0);
 
 require '../Connection/dbconnection.php';
 
@@ -68,7 +68,7 @@ function updateProduct($userInput, $updatedParams){
     } elseif(empty(trim($purchasehistory))){
         return error422("Purchase History is Required");
     } else{
-        $query = "UPDATE product SET email = '$email', password = '$password', username = '$username', purchasehistory = '$purchasehistory', shippingaddress = '$shippingaddress' WHERE userid = '$id' LIMIT 1";
+        $query = "UPDATE user SET email = '$email', password = '$password', username = '$username', purchasehistory = '$purchasehistory', shippingaddress = '$shippingaddress' WHERE userid = '$id' LIMIT 1";
         $result = mysqli_query($connection, $query);
         
         if($result){

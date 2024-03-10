@@ -1,6 +1,6 @@
 <?php 
 
-error_reporting(0);
+// error_reporting(0);
 
 require '../Connection/dbconnection.php';
 
@@ -9,7 +9,7 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 if($requestMethod == "POST"){
 
     $createUser = json_decode(file_get_contents("php://input"), true);
-    if(empty($createProduct)){
+    if(empty($createUser)){
         $storeUserData = postUser($_POST);
     } else {
         $storeUserData = postUser($createUser);
@@ -47,7 +47,7 @@ function postUser($userInput){
     } elseif(empty(trim($purchasehistory))){
         return error422("Purchase History is Required");
     } else{
-        $query = "INSERT INTO user (email, password, username, purchasehistory, shippingaddress ) VALUES ('$email', '$password', '$username',  $purchasehistory',$shippingaddress')";
+        $query = "INSERT INTO user (email, password, username, purchasehistory, shippingaddress ) VALUES ('$email', '$password', '$username',  '$purchasehistory','$shippingaddress')";
         $result = mysqli_query($connection, $query);
         
         if($result){
