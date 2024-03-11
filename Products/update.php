@@ -1,12 +1,15 @@
 <?php
 
+//Remove error and Warnings from postman console
 error_reporting(0);
 
+//Importing  the required files for database connection
 require '../Connection/dbconnection.php';
 
+//Setting request method as Server request method
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-
+//Checking if the requested method is PUT or not else sending status 405
 if ($requestMethod == "PUT") {
 
     $updateProduct = json_decode(file_get_contents("php://input"), true);
@@ -27,11 +30,13 @@ if ($requestMethod == "PUT") {
     echo json_encode( $data );
 }
 
-
+//Function for PUT method for product
 function updateProduct($productInput, $updatedParams){
 
+    //Making database connection variable global
     global $connection;
 
+    //Checking if the value of productid is not null
     if(!isset($updatedParams['productid'])){
 
         $data = [
@@ -50,24 +55,29 @@ function updateProduct($productInput, $updatedParams){
         echo json_encode($data);
     }
 
+    //Getting id, description, image, pricing, shippingcost from product input
     $id = mysqli_real_escape_string($connection, $updatedParams["productid"]);
     $description = mysqli_real_escape_string($connection, $productInput[ 'description'] );
     $image = mysqli_real_escape_string( $connection, $productInput['image']);
     $pricing = mysqli_real_escape_string( $connection, $productInput['pricing'] );
     $shippingcost =  mysqli_real_escape_string( $connection,$productInput['shippingcost'] );
 
+    //Checking if  all fields are filled otherwise sending error message with status 422
     if(empty(trim($description))){
-        return error422("Enter Description");
+        return errorMessage("Enter Description");
     } elseif (empty(trim($image))){
-        return error422("Upload Image");
+        return errorMessage("Upload Image");
     } elseif (empty(trim($pricing))){
-        return error422("Price is required");
+        return errorMessage("Price is required");
     } elseif (empty(trim($shippingcost))){
-        return error422("Shipping Cost is Required");
+        return errorMessage("Shipping Cost is Required");
     } else{
+
+        //SQL query for updating Data in product table
         $query = "UPDATE product SET description = '$description', image = '$image', pricing = '$pricing', shippingcost = '$shippingcost' WHERE productid = '$id' LIMIT 1";
         $result = mysqli_query($connection, $query);
         
+        //If data updated successfully then sending success message with status
         if($result){
 
             $data = [
@@ -88,7 +98,8 @@ function updateProduct($productInput, $updatedParams){
     }
 }
 
-function error422($errorMessage){
+//Custom function for returning error messages with a specific status code and message
+function errorMessage($errorMessage){
 
     $data = [
         'status' => 422,

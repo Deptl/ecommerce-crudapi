@@ -1,8 +1,12 @@
 <?php 
 
+//Importing  the required files for database connection
 require '../Connection/dbconnection.php';
 
+//Setting request method as Server request method
 $requestMethod = $_SERVER["REQUEST_METHOD"];
+
+//Checking if the requested method is GET or not else sending status 405
 if ($requestMethod == "GET") {
 
     $comments = getComments();
@@ -17,14 +21,20 @@ if ($requestMethod == "GET") {
     echo json_encode( $data );
 }
 
+//Function for GET method for comments
 function getComments() {
 
+    //Making database connection variable global
     global $connection;
 
+    //SQL query for getting Data in comment table
     $query = "SELECT * FROM comments";
     $query_run = mysqli_query($connection, $query);
 
+    //If data displayed successfully then sending success message with status
     if($query_run){
+
+        //Checking if the table is empty or not
         if(mysqli_num_rows($query_run) > 0 ){
 
             $response = mysqli_fetch_all($query_run, MYSQLI_ASSOC);

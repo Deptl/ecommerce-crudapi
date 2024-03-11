@@ -1,11 +1,15 @@
 <?php 
 
+//Remove error and Warnings from postman console
 error_reporting(0);
 
+//Importing  the required files for database connection
 require '../Connection/dbconnection.php';
 
+//Setting request method as Server request method
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
+//Checking if the requested method is POST or not else sending status 405
 if($requestMethod == "POST"){
 
     $createProduct = json_decode(file_get_contents("php://input"), true);
@@ -26,32 +30,39 @@ if($requestMethod == "POST"){
     echo json_encode( $data );
 }
 
+//Function for POST method for product
 function postProduct($productInput){
     
+    //Making database connection variable global
     global $connection;
 
+    //Getting description, image, pricing, shippingcost from user input
     $description = mysqli_real_escape_string($connection, $productInput[ 'description'] );
     $image = mysqli_real_escape_string( $connection, $productInput['image']);
     $pricing = mysqli_real_escape_string( $connection, $productInput['pricing'] );
     $shippingcost =  mysqli_real_escape_string( $connection,$productInput['shippingcost'] );
 
+    //Checking if  all fields are filled otherwise sending error message with status 422
     if(empty(trim($description))){
-        return error422("Enter Description");
+        return errorMessage("Enter Description");
     } elseif (empty(trim($image))){
-        return error422("Upload Image");
+        return errorMessage("Upload Image");
     } elseif (empty(trim($pricing))){
-        return error422("Price is required");
+        return errorMessage("Price is required");
     } elseif (empty(trim($shippingcost))){
-        return error422("Shipping Cost is Required");
+        return errorMessage("Shipping Cost is Required");
     } else{
+
+        //SQL query for inserting Data in product table
         $query = "INSERT INTO product(description, image, pricing, shippingcost) VALUES ('$description', '$image', '$pricing', '$shippingcost')";
         $result = mysqli_query($connection, $query);
         
+        //If data inserted successfully then sending success message with status 
         if($result){
 
             $data = [
                 'status' => '201',
-                'message' => 'Customer Created Successfully',
+                'message' => 'Product Created Successfully',
             ];
 
             return json_encode($data);
@@ -67,7 +78,8 @@ function postProduct($productInput){
     }
 }
 
-function error422($errorMessage){
+//Custom function for returning error messages with a specific status code and message
+function errorMessage($errorMessage){
 
     $data = [
         'status' => 422,

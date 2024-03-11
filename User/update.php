@@ -1,12 +1,15 @@
 <?php
 
-// error_reporting(0);
+//Remove error and Warnings from postman console
+error_reporting(0);
 
+//Importing  the required files for database connection
 require '../Connection/dbconnection.php';
 
+//Setting request method as Server request method
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-
+//Checking if the requested method is PUT or not else sending status 405
 if ($requestMethod == "PUT") {
 
     $updateUser = json_decode(file_get_contents("php://input"), true);
@@ -27,11 +30,13 @@ if ($requestMethod == "PUT") {
     echo json_encode( $data );
 }
 
-
+//Function for PUT method for user
 function updateProduct($userInput, $updatedParams){
 
+    //Making database connection variable global
     global $connection;
 
+    //Checking if the value of userid is not null
     if(!isset($updatedParams['userid'])){
 
         $data = [
@@ -50,6 +55,7 @@ function updateProduct($userInput, $updatedParams){
         echo json_encode($data);
     }
 
+    //Getting id, email, password, username, shippingaddress and purchasehistory from user input
     $id = mysqli_real_escape_string($connection, $updatedParams["userid"]);
     $email = mysqli_real_escape_string($connection, $userInput[ 'email'] );
     $password = mysqli_real_escape_string( $connection, $userInput['password']);
@@ -57,20 +63,24 @@ function updateProduct($userInput, $updatedParams){
     $shippingaddress =  mysqli_real_escape_string( $connection,$userInput['shippingaddress'] );
     $purchasehistory = mysqli_real_escape_string($connection, $userInput['purchasehistory']);
 
+    //Checking if  all fields are filled otherwise sending error message with status 422
     if(empty(trim($email))){
-        return error422("Enter Email");
+        return errorMessage("Enter Email");
     } elseif (empty(trim($password))){
-        return error422("Enter Password");
+        return errorMessage("Enter Password");
     } elseif (empty(trim($username))){
-        return error422("Enter Username");
+        return errorMessage("Enter Username");
     } elseif (empty(trim($shippingaddress))){
-        return error422("Enter Shipping Address");
+        return errorMessage("Enter Shipping Address");
     } elseif(empty(trim($purchasehistory))){
-        return error422("Purchase History is Required");
+        return errorMessage("Purchase History is Required");
     } else{
+
+        //SQL query for updating Data in user table
         $query = "UPDATE user SET email = '$email', password = '$password', username = '$username', purchasehistory = '$purchasehistory', shippingaddress = '$shippingaddress' WHERE userid = '$id' LIMIT 1";
         $result = mysqli_query($connection, $query);
         
+        //If data updated successfully then sending success message with status 
         if($result){
 
             $data = [
@@ -91,7 +101,8 @@ function updateProduct($userInput, $updatedParams){
     }
 }
 
-function error422($errorMessage){
+//Custom function for returning error messages with a specific status code and message
+function errorMessage($errorMessage){
 
     $data = [
         'status' => 422,

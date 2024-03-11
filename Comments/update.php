@@ -1,12 +1,15 @@
 <?php
 
+//Remove error and Warnings from postman console
 error_reporting(0);
 
+//Importing  the required files for database connection
 require '../Connection/dbconnection.php';
 
+//Setting request method as Server request method
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-
+//Checking if the requested method is PUT or not else sending status 405
 if ($requestMethod == "PUT") {
 
     $updateComment = json_decode(file_get_contents("php://input"), true);
@@ -27,11 +30,13 @@ if ($requestMethod == "PUT") {
     echo json_encode( $data );
 }
 
-
+//Function for PUT method for comments
 function updateComment($commentInput, $updatedParams){
 
+    //Making database connection variable global
     global $connection;
 
+    //Checking if the value of commentid is not null
     if(!isset($updatedParams['commentid'])){
 
         $data = [
@@ -50,6 +55,7 @@ function updateComment($commentInput, $updatedParams){
         echo json_encode($data);
     }
 
+    //Getting id, product, user, rating, images, and text from user input
     $id = mysqli_real_escape_string($connection, $updatedParams["commentid"]);
     $product = mysqli_real_escape_string($connection, $commentInput[ 'product'] );
     $user = mysqli_real_escape_string( $connection, $commentInput['user']);
@@ -57,23 +63,24 @@ function updateComment($commentInput, $updatedParams){
     $images =  mysqli_real_escape_string( $connection,$commentInput['images'] );
     $text =  mysqli_real_escape_string( $connection,$commentInput['text'] );
 
-
+    //Checking if  all fields are filled otherwise sending error message with status 422
     if(empty(trim($product))){
-        return error422("Enter Description");
+        return errorMessage("Enter Description");
     } elseif (empty(trim($user))){
-        return error422("Upload Image");
+        return errorMessage("Upload Image");
     } elseif (empty(trim($rating))){
-        return error422("Price is required");
+        return errorMessage("Price is required");
     } elseif (empty(trim($images))){
-        return error422("Shipping Cost is Required");
+        return errorMessage("Shipping Cost is Required");
     } elseif(empty(trim($text))) {
-        return error422("Text is required");
-    }
-    
-    else{
+        return errorMessage("Text is required");
+    } else{
+        
+        //SQL query for updating Data in comments table
         $query = "UPDATE comments SET product = '$product', user = '$user', rating = '$rating', images = '$images', text = '$text' WHERE commentid = '$id' LIMIT 1";
         $result = mysqli_query($connection, $query);
         
+        //If data updated successfully then sending success message with status
         if($result){
 
             $data = [
@@ -94,7 +101,8 @@ function updateComment($commentInput, $updatedParams){
     }
 }
 
-function error422($errorMessage){
+//Custom function for returning error messages with a specific status code and message
+function errorMessage($errorMessage){
 
     $data = [
         'status' => 422,
