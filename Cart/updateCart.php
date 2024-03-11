@@ -59,6 +59,7 @@ function updateCart($cartInput, $updatedParams){
     }
 
     //Getting id, product, quantities, user from user input
+    //mysqli_real_escape_string is used to create proper sql string that is used in sql statement
     $id = mysqli_real_escape_string($connection, $updatedParams["cartitemid"]);
     $product = mysqli_real_escape_string($connection, $cartInput[ 'product'] );
     $quantities = mysqli_real_escape_string( $connection, $cartInput['quantities']);

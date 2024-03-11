@@ -59,6 +59,7 @@ function updateOrder($orderInput, $updatedParams){
     }
 
     //Getting id, reacordigofsale from order input
+    //mysqli_real_escape_string is used to create proper sql string that is used in sql statement
     $id = mysqli_real_escape_string($connection, $updatedParams["orderid"]);
     $recordingofsale = mysqli_real_escape_string($connection, $orderInput[ 'recordingofsale'] );
 

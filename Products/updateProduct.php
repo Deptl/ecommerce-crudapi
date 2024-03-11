@@ -15,14 +15,14 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is PUT or not else sending status 405
 if ($requestMethod == "PUT") {
 
-    $updateComment = json_decode(file_get_contents("php://input"), true);
-    if(empty($updateComment)){
-        $updateCommentData = updateComment($_POST, $_GET);
+    $updateProduct = json_decode(file_get_contents("php://input"), true);
+    if(empty($updateProduct)){
+        $updateProductData = updateProduct($_POST, $_GET);
     } else {
-        $updateCommentData = updateComment($updateComment, $_GET);
+        $updateProductData = updateProduct($updateProduct, $_GET);
     }
 
-    echo $updateCommentData;
+    echo $updateProductData;
 
 } else {
     $data = [
@@ -33,54 +33,52 @@ if ($requestMethod == "PUT") {
     echo json_encode( $data );
 }
 
-//Function for PUT method for comments
-function updateComment($commentInput, $updatedParams){
+//Function for PUT method for product
+function updateProduct($productInput, $updatedParams){
 
     //Making database connection variable global
     global $connection;
 
-    //Checking if the value of commentid is not null
-    if(!isset($updatedParams['commentid'])){
+    //Checking if the value of productid is not null
+    if(!isset($updatedParams['productid'])){
 
         $data = [
             'status' => 422,
-            'message' => "Comment Id not Found"
+            'message' => "Customer Id not Found"
         ];
     
         echo json_encode($data);
     }
-    elseif($updatedParams['commentid'] == null){
+    elseif($updatedParams['productid'] == null){
         $data = [
             'status' => 422,
-            'message' => "Enter Comment Id"
+            'message' => "Enter Customer Id"
         ];
     
         echo json_encode($data);
     }
 
-    //Getting id, product, user, rating, images, and text from user input
-    $id = mysqli_real_escape_string($connection, $updatedParams["commentid"]);
-    $product = mysqli_real_escape_string($connection, $commentInput[ 'product'] );
-    $user = mysqli_real_escape_string( $connection, $commentInput['user']);
-    $rating = mysqli_real_escape_string( $connection, $commentInput['rating'] );
-    $images =  mysqli_real_escape_string( $connection,$commentInput['images'] );
-    $text =  mysqli_real_escape_string( $connection,$commentInput['text'] );
+    //Getting id, description, image, pricing, shippingcost from product input
+    //mysqli_real_escape_string is used to create proper sql string that is used in sql statement
+    $id = mysqli_real_escape_string($connection, $updatedParams["productid"]);
+    $description = mysqli_real_escape_string($connection, $productInput[ 'description'] );
+    $image = mysqli_real_escape_string( $connection, $productInput['image']);
+    $pricing = mysqli_real_escape_string( $connection, $productInput['pricing'] );
+    $shippingcost =  mysqli_real_escape_string( $connection,$productInput['shippingcost'] );
 
     //Checking if  all fields are filled otherwise sending error message with status 422
-    if(empty(trim($product))){
+    if(empty(trim($description))){
         return errorMessage("Enter Description");
-    } elseif (empty(trim($user))){
+    } elseif (empty(trim($image))){
         return errorMessage("Upload Image");
-    } elseif (empty(trim($rating))){
+    } elseif (empty(trim($pricing))){
         return errorMessage("Price is required");
-    } elseif (empty(trim($images))){
+    } elseif (empty(trim($shippingcost))){
         return errorMessage("Shipping Cost is Required");
-    } elseif(empty(trim($text))) {
-        return errorMessage("Text is required");
     } else{
-        
-        //SQL query for updating Data in comments table
-        $query = "UPDATE comments SET product = '$product', user = '$user', rating = '$rating', images = '$images', text = '$text' WHERE commentid = '$id' LIMIT 1";
+
+        //SQL query for updating Data in product table
+        $query = "UPDATE product SET description = '$description', image = '$image', pricing = '$pricing', shippingcost = '$shippingcost' WHERE productid = '$id' LIMIT 1";
         $result = mysqli_query($connection, $query);
         
         //If data updated successfully then sending success message with status
@@ -88,7 +86,7 @@ function updateComment($commentInput, $updatedParams){
 
             $data = [
                 'status' => '200',
-                'message' => 'Comment Updated Successfully',
+                'message' => 'Product Updated Successfully',
             ];
 
             return json_encode($data);

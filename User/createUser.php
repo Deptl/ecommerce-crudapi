@@ -40,6 +40,7 @@ function postUser($userInput){
     global $connection;
 
     //Getting email, password, username, shippingaddress and purchasehistory from user input
+    //mysqli_real_escape_string is used to create proper sql string that is used in sql statement
     $email = mysqli_real_escape_string($connection, $userInput[ 'email'] );
     $password = mysqli_real_escape_string( $connection, $userInput['password']);
     $username = mysqli_real_escape_string( $connection, $userInput['username'] );

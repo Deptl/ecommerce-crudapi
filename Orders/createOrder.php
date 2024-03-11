@@ -15,14 +15,14 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is POST or not else sending status 405
 if($requestMethod == "POST"){
 
-    $createProduct = json_decode(file_get_contents("php://input"), true);
-    if(empty($createProduct)){
-        $storeProductData = postProduct($_POST);
+    $createOrder = json_decode(file_get_contents("php://input"), true);
+    if(empty($createOrder)){
+        $storeOrderData = postOrder($_POST);
     } else {
-        $storeProductData = postProduct($createProduct);
+        $storeOrderData = postOrder($createOrder);
     }
 
-    echo $storeProductData;
+    echo $storeOrderData;
 } else {
 
     $data = [
@@ -33,31 +33,23 @@ if($requestMethod == "POST"){
     echo json_encode( $data );
 }
 
-//Function for POST method for product
-function postProduct($productInput){
+//Function for POST method for orders
+function postOrder($orderInput){
     
     //Making database connection variable global
     global $connection;
 
-    //Getting description, image, pricing, shippingcost from user input
-    $description = mysqli_real_escape_string($connection, $productInput[ 'description'] );
-    $image = mysqli_real_escape_string( $connection, $productInput['image']);
-    $pricing = mysqli_real_escape_string( $connection, $productInput['pricing'] );
-    $shippingcost =  mysqli_real_escape_string( $connection,$productInput['shippingcost'] );
+    //Getting reacordig of sale from order input
+    //mysqli_real_escape_string is used to create proper sql string that is used in sql statement
+    $recordingofsale = mysqli_real_escape_string($connection, $orderInput['recordingofsale']);
 
     //Checking if  all fields are filled otherwise sending error message with status 422
-    if(empty(trim($description))){
-        return errorMessage("Enter Description");
-    } elseif (empty(trim($image))){
-        return errorMessage("Upload Image");
-    } elseif (empty(trim($pricing))){
-        return errorMessage("Price is required");
-    } elseif (empty(trim($shippingcost))){
-        return errorMessage("Shipping Cost is Required");
-    } else{
+    if(empty(trim($recordingofsale))){
+        return errorMessage("Enter Recording");
+    } else {
 
-        //SQL query for inserting Data in product table
-        $query = "INSERT INTO product(description, image, pricing, shippingcost) VALUES ('$description', '$image', '$pricing', '$shippingcost')";
+        //SQL query for inserting Data in orders table
+        $query = "INSERT INTO orders (recordingofsale) VALUES ('$recordingofsale')";
         $result = mysqli_query($connection, $query);
         
         //If data inserted successfully then sending success message with status 
@@ -65,7 +57,7 @@ function postProduct($productInput){
 
             $data = [
                 'status' => '201',
-                'message' => 'Product Created Successfully',
+                'message' => 'Customer Created Successfully',
             ];
 
             return json_encode($data);

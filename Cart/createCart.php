@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 //Remove error and Warnings from postman console
 error_reporting(0);
 
-//Importing  the required files for database connection
+//Remove error and Warnings from postman console
 require '../Connection/dbconnection.php';
 
 //Setting request method as Server request method
@@ -15,14 +15,14 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is POST or not else sending status 405
 if($requestMethod == "POST"){
 
-    $createOrder = json_decode(file_get_contents("php://input"), true);
-    if(empty($createOrder)){
-        $storeOrderData = postOrder($_POST);
+    $createCart = json_decode(file_get_contents("php://input"), true);
+    if(empty($createCart)){
+        $storeCartData = postCart($_POST);
     } else {
-        $storeOrderData = postOrder($createOrder);
+        $storeCartData = postCart($createCart);
     }
 
-    echo $storeOrderData;
+    echo $storeCartData;
 } else {
 
     $data = [
@@ -33,30 +33,37 @@ if($requestMethod == "POST"){
     echo json_encode( $data );
 }
 
-//Function for POST method for orders
-function postOrder($orderInput){
+//Function for POST method for cart
+function postCart($cartInput){
     
     //Making database connection variable global
     global $connection;
 
-    //Getting reacordig of sale from order input
-    $recordingofsale = mysqli_real_escape_string($connection, $orderInput['recordingofsale']);
+    //Getting product, quantities, user from user input
+    //mysqli_real_escape_string is used to create proper sql string that is used in sql statement
+    $product = mysqli_real_escape_string($connection, $cartInput[ 'product'] );
+    $quantities = mysqli_real_escape_string( $connection, $cartInput['quantities']);
+    $user = mysqli_real_escape_string( $connection, $cartInput['user'] );
 
     //Checking if  all fields are filled otherwise sending error message with status 422
-    if(empty(trim($recordingofsale))){
-        return errorMessage("Enter Recording");
-    } else {
+    if(empty(trim($product))){
+        return errorMessage("Enter Product");
+    } elseif (empty(trim($quantities))){
+        return errorMessage("Enter Quantity");
+    } elseif (empty(trim($user))){
+        return errorMessage("Enter user");
+    } else{
 
-        //SQL query for inserting Data in orders table
-        $query = "INSERT INTO orders (recordingofsale) VALUES ('$recordingofsale')";
+        //SQL query for inserting Data in cart table
+        $query = "INSERT INTO cart (product, quantities, user) VALUES ('$product', '$quantities', '$user')";
         $result = mysqli_query($connection, $query);
         
-        //If data inserted successfully then sending success message with status 
+        //If data inserted successfully then sending success message with status
         if($result){
 
             $data = [
                 'status' => '201',
-                'message' => 'Customer Created Successfully',
+                'message' => 'Cart Created Successfully',
             ];
 
             return json_encode($data);
@@ -72,7 +79,6 @@ function postOrder($orderInput){
     }
 }
 
-//Custom function for returning error messages with a specific status code and message
 function errorMessage($errorMessage){
 
     $data = [
