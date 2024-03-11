@@ -1,5 +1,8 @@
 <?php 
 
+//Setting headers for JSON content type 
+header('Content-Type: application/json');
+
 //Importing  the required files for database connection
 require '../Connection/dbconnection.php';
 

@@ -1,5 +1,8 @@
 <?php
 
+//Setting headers for JSON content type 
+header('Content-Type: application/json');
+
 //Remove error and Warnings from postman console
 error_reporting(0);
 
