@@ -11,16 +11,13 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 //Checking if the requested method is DELETE or not else sending status 405
 if ($requestMethod == "DELETE") {
-
     $deletecomments = deleteComment($_GET);
     echo $deletecomments;
-
 } else {
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -32,12 +29,10 @@ function deleteComment($params){
 
     //Checking if the value is not null
     if(!isset($params['commentid'])){
-
         $data = [
             'status' => 422,
             'message' => "Comment Id not Found"
         ];
-    
         return json_encode($data);
     }
     elseif($params['commentid'] == null){
@@ -45,7 +40,6 @@ function deleteComment($params){
             'status' => 422,
             'message' => "Enter Comment Id"
         ];
-    
         return json_encode($data);
     }
 
@@ -58,20 +52,16 @@ function deleteComment($params){
 
     //If data deleted successfully then sending success message with status 
     if($result){
-
         $data = [
             'status' => '200',
-            'message' => 'Product Deleted Successfully',
+            'message' => 'Comment Deleted Successfully',
         ];
-
         return json_encode($data);
-
     } else {
         $data = [
             'status' => '404',
-            'message' => 'Product Not Found',
+            'message' => 'Comment Not Found',
         ];
-    
         return json_encode( $data );
     }
 }

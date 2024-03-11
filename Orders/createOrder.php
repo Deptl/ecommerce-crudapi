@@ -15,21 +15,19 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is POST or not else sending status 405
 if($requestMethod == "POST"){
 
+    //Converts json data
     $createOrder = json_decode(file_get_contents("php://input"), true);
     if(empty($createOrder)){
         $storeOrderData = postOrder($_POST);
     } else {
         $storeOrderData = postOrder($createOrder);
     }
-
     echo $storeOrderData;
 } else {
-
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -54,20 +52,16 @@ function postOrder($orderInput){
         
         //If data inserted successfully then sending success message with status 
         if($result){
-
             $data = [
                 'status' => '201',
-                'message' => 'Customer Created Successfully',
+                'message' => 'Order Created Successfully',
             ];
-
             return json_encode($data);
-
         } else{
             $data = [
                 'status' => '500',
                 'message' => 'Internal Server Error',
             ];
-        
             return json_encode( $data );
         }
     }
@@ -75,13 +69,11 @@ function postOrder($orderInput){
 
 //Custom function for returning error messages with a specific status code and message
 function errorMessage($errorMessage){
-
     $data = [
         'status' => 422,
         'message' => $errorMessage
     ];
-
-    echo json_encode($data);
+    return json_encode($data);
 }
 
 ?>

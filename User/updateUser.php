@@ -15,21 +15,19 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is PUT or not else sending status 405
 if ($requestMethod == "PUT") {
 
+    //Converts json data
     $updateUser = json_decode(file_get_contents("php://input"), true);
     if(empty($updateUser)){
         $updateUserData = updateProduct($_POST, $_GET);
     } else {
         $updateUserData = updateProduct($updateUser, $_GET);
     }
-
     echo $updateUserData;
-
 } else {
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -41,12 +39,10 @@ function updateProduct($userInput, $updatedParams){
 
     //Checking if the value of userid is not null
     if(!isset($updatedParams['userid'])){
-
         $data = [
             'status' => 422,
             'message' => "User Id not Found"
         ];
-    
         echo json_encode($data);
     }
     elseif($updatedParams['userid'] == null){
@@ -54,7 +50,6 @@ function updateProduct($userInput, $updatedParams){
             'status' => 422,
             'message' => "Enter User Id"
         ];
-    
         echo json_encode($data);
     }
 
@@ -86,20 +81,16 @@ function updateProduct($userInput, $updatedParams){
         
         //If data updated successfully then sending success message with status 
         if($result){
-
             $data = [
                 'status' => '201',
                 'message' => 'User Updated Successfully',
             ];
-
             return json_encode($data);
-
         } else {
             $data = [
                 'status' => '500',
                 'message' => 'Internal Server Error',
             ];
-        
             return json_encode( $data );
         }
     }
@@ -107,13 +98,11 @@ function updateProduct($userInput, $updatedParams){
 
 //Custom function for returning error messages with a specific status code and message
 function errorMessage($errorMessage){
-
     $data = [
         'status' => 422,
         'message' => $errorMessage
     ];
-
-    echo json_encode($data);
+    return json_encode($data);
 }
 
 ?>

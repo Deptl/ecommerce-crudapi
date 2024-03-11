@@ -15,21 +15,19 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is PUT or not else sending status 405
 if ($requestMethod == "PUT") {
 
+    //Converts json data
     $updateOrder = json_decode(file_get_contents("php://input"), true);
     if(empty($updateOrder)){
         $updateOrderData = updateOrder($_POST, $_GET);
     } else {
         $updateOrderData = updateOrder($updateOrder, $_GET);
     }
-
     echo $updateOrderData;
-
 } else {
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -41,12 +39,10 @@ function updateOrder($orderInput, $updatedParams){
 
     //Checking if the value of orderid is not null
     if(!isset($updatedParams['orderid'])){
-
         $data = [
             'status' => 422,
             'message' => "Order Id not Found"
         ];
-    
         echo json_encode($data);
     }
     elseif($updatedParams['orderid'] == null){
@@ -54,7 +50,6 @@ function updateOrder($orderInput, $updatedParams){
             'status' => 422,
             'message' => "Enter Order Id"
         ];
-    
         echo json_encode($data);
     }
 
@@ -73,20 +68,16 @@ function updateOrder($orderInput, $updatedParams){
         $result = mysqli_query($connection, $query);
         
         if($result){
-
             $data = [
                 'status' => '201',
                 'message' => 'Order Updated Successfully',
             ];
-
             return json_encode($data);
-
         } else {
             $data = [
                 'status' => '500',
                 'message' => 'Internal Server Error',
             ];
-        
             return json_encode( $data );
         }
     }
@@ -94,13 +85,11 @@ function updateOrder($orderInput, $updatedParams){
 
 //Custom function for returning error messages with a specific status code and message
 function errorMessage($errorMessage){
-
     $data = [
         'status' => 422,
         'message' => $errorMessage
     ];
-
-    echo json_encode($data);
+    return json_encode($data);
 }
 
 ?>

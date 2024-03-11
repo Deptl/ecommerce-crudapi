@@ -15,21 +15,19 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is POST or not else sending status 405
 if($requestMethod == "POST"){
 
+    //Converts json data
     $createComment = json_decode(file_get_contents("php://input"), true);
     if(empty($createComment)){
         $storeCommentData = postComment($_POST);
     } else {
         $storeCommentData = postComment($createComment);
     }
-
     echo $storeCommentData;
 } else {
-
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -66,32 +64,26 @@ function postComment($commentInput){
         
         //If data inserted successfully then sending success message with status
         if($result){
-
             $data = [
                 'status' => '201',
                 'message' => 'Comment Created Successfully',
             ];
-
             return json_encode($data);
-
         } else{
             $data = [
                 'status' => '500',
                 'message' => 'Internal Server Error',
             ];
-        
             return json_encode( $data );
         }
     }
 }
 
 function errorMessage($errorMessage){
-
     $data = [
         'status' => 422,
         'message' => $errorMessage
     ];
-
     echo json_encode($data);
 }
 

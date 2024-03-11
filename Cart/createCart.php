@@ -15,21 +15,19 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is POST or not else sending status 405
 if($requestMethod == "POST"){
 
+    //Converts json data 
     $createCart = json_decode(file_get_contents("php://input"), true);
     if(empty($createCart)){
         $storeCartData = postCart($_POST);
     } else {
         $storeCartData = postCart($createCart);
     }
-
     echo $storeCartData;
 } else {
-
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -60,33 +58,27 @@ function postCart($cartInput){
         
         //If data inserted successfully then sending success message with status
         if($result){
-
             $data = [
                 'status' => '201',
                 'message' => 'Cart Created Successfully',
             ];
-
             return json_encode($data);
-
         } else{
             $data = [
                 'status' => '500',
                 'message' => 'Internal Server Error',
             ];
-        
             return json_encode( $data );
         }
     }
 }
 
 function errorMessage($errorMessage){
-
     $data = [
         'status' => 422,
         'message' => $errorMessage
     ];
-
-    echo json_encode($data);
+    return json_encode($data);
 }
 
 ?>

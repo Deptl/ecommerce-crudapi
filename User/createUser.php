@@ -15,21 +15,19 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is POST or not else sending status 405
 if($requestMethod == "POST"){
 
+    //Converts json data
     $createUser = json_decode(file_get_contents("php://input"), true);
     if(empty($createUser)){
         $storeUserData = postUser($_POST);
     } else {
         $storeUserData = postUser($createUser);
     }
-
     echo $storeUserData;
 } else {
-
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -70,14 +68,12 @@ function postUser($userInput){
                 'status' => '201',
                 'message' => 'User Created Successfully',
             ];
-
             return json_encode($data);
         } else{
             $data = [
                 'status' => '500',
                 'message' => 'Internal Server Error',
             ];
-        
             return json_encode( $data );
         }
     }
@@ -85,13 +81,11 @@ function postUser($userInput){
 
 //Custom function for returning error messages with a specific status code and message
 function errorMessage($errorMessage){
-
     $data = [
         'status' => 422,
         'message' => $errorMessage
     ];
-
-    echo json_encode($data);
+    return json_encode($data);
 }
 
 ?>

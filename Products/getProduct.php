@@ -13,20 +13,17 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 if ($requestMethod == "GET") {
 
     if(isset($_GET['productid'])){
-
         $product = getOneProduct($_GET);
         echo $product;
     } else {
         $productList = getSpecificProduct();
         echo $productList;
     }
-
-} else {
-    $data = [
-        'status' => '405',
-        'message' => $requestMethod . ' Method Not Allowed'
-    ];
-
+    } else {
+        $data = [
+            'status' => '405',
+            'message' => $requestMethod . ' Method Not Allowed'
+        ];
     echo json_encode( $data );
 }
 
@@ -53,23 +50,18 @@ function  getOneProduct($params){
 
             //Checking if the table is empty or not
             if(mysqli_num_rows($result) == 1 ){
-
                 $response = mysqli_fetch_all($result);
-
                 $data = [
                     'status' => '200',
                     'message' => 'Product Fetched Successfully',
                     'data' => $response
                 ];
-        
                 return json_encode( $data );
-
             } else {
                 $data = [
                     'status' => '404',
                     'message' => 'No Product Found',
                 ];
-        
                 return json_encode( $data );
             }
         } else {
@@ -77,7 +69,6 @@ function  getOneProduct($params){
                 'status' => '500',
                 'message' => 'Internal Server Error',
             ];
-    
             return json_encode( $data );
         }
     }
@@ -85,13 +76,11 @@ function  getOneProduct($params){
 
 //Custom function for returning error messages with a specific status code and message
 function errorMessage($errorMessage){
-
     $data = [
         'status' => 422,
         'message' => $errorMessage
     ];
-
-    echo json_encode($data);
+    return json_encode($data);
 }
 
 ?>

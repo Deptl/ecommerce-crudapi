@@ -11,16 +11,13 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 //Checking if the requested method is DELETE or not else sending status 405
 if ($requestMethod == "DELETE") {
-
     $deleteuser = deleteUser($_GET);
     echo $deleteuser;
-
 } else {
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -32,20 +29,17 @@ function deleteUser($params){
 
     //Checking if the value is not null
     if(!isset($params['userid'])){
-
         $data = [
             'status' => 422,
-            'message' => "Customer Id not Found"
+            'message' => "User Id not Found"
         ];
-    
         return json_encode($data);
     }
     elseif($params['userid'] == null){
         $data = [
             'status' => 422,
-            'message' => "Enter Customer Id"
+            'message' => "Enter User Id"
         ];
-    
         return json_encode($data);
     }
 
@@ -58,20 +52,17 @@ function deleteUser($params){
 
     //If data deleted successfully then sending success message with status 
     if($result){
-
         $data = [
             'status' => '200',
             'message' => 'User Deleted Successfully',
         ];
 
         return json_encode($data);
-
     } else {
         $data = [
             'status' => '404',
             'message' => 'User Not Found',
         ];
-    
         return json_encode( $data );
     }
 }

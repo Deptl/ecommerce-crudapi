@@ -1,0 +1,586 @@
+{
+	"info": {
+		"_postman_id": "4c8bc38c-b9ea-45b4-9a06-003f2923eeb3",
+		"name": "CRUD-API-Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15495288"
+	},
+	"item": [
+		{
+			"name": "http://localhost/Assignment2/Cart/read.php",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Cart/readCart.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Cart",
+						"readCart.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Cart/create.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product\": \"4\",\r\n    \"quantities\": \"40\",\r\n    \"user\": \"22\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/Cart/createCart.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Cart",
+						"createCart.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Cart/update.php",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product\": \"3\",\r\n    \"quantities\": \"30\",\r\n    \"user\": \"16\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/Cart/updateCart.php?cartitemid=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Cart",
+						"updateCart.php"
+					],
+					"query": [
+						{
+							"key": "cartitemid",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Cart/delete.php?cartitemid",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Cart/deleteCart.php?cartitemid=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Cart",
+						"deleteCart.php"
+					],
+					"query": [
+						{
+							"key": "cartitemid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Comments/readComment.php",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Comments/readComment.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Comments",
+						"readComment.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Comments/createComments.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product\": \"4\",\r\n    \"user\": \"4\",\r\n    \"rating\": \"5\",\r\n    \"images\": \"image1 and image2\",\r\n    \"text\": \"This product is awesome!! Loved using it.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/Comments/createComments.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Comments",
+						"createComments.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Comments/updateComment.php?commentid=1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product\": \"4\",\r\n    \"user\": \"4\",\r\n    \"rating\": \"5\",\r\n    \"images\": \"image\",\r\n    \"text\": \"Good\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/Comments/updateComment.php?commentid=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Comments",
+						"updateComment.php"
+					],
+					"query": [
+						{
+							"key": "commentid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Comments/deleteComment.php?commentid=1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Comments/deleteComment.php?commentid=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Comments",
+						"deleteComment.php"
+					],
+					"query": [
+						{
+							"key": "commentid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Orders/readOrder.php",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Orders/readOrder.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Orders",
+						"readOrder.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Orders/createOrder.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"recordingofsale\": \"100\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/Orders/createOrder.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Orders",
+						"createOrder.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Orders/updateOrder.php?orderid=5",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"recordingofsale\": \"500\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/Orders/updateOrder.php?orderid=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Orders",
+						"updateOrder.php"
+					],
+					"query": [
+						{
+							"key": "orderid",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Orders/deleteOrder.php?orderid=1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Orders/deleteOrder.php?orderid=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Orders",
+						"deleteOrder.php"
+					],
+					"query": [
+						{
+							"key": "orderid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Products/readProducts.php",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Products/readProducts.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Products",
+						"readProducts.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Products/createProduct.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Cooling fans for CPU\",\r\n    \"image\": \"DEF\",\r\n    \"pricing\": \"23.99\",\r\n    \"shippingcost\": \"47.99\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/Products/createProduct.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Products",
+						"createProduct.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Products/updateProduct.php?productid=6",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"def\",\r\n    \"image\": \"DEF\",\r\n    \"pricing\": \"123.99\",\r\n    \"shippingcost\": \"147.99\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/Products/updateProduct.php?productid=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Products",
+						"updateProduct.php"
+					],
+					"query": [
+						{
+							"key": "productid",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Products/deleteProduct.php?productid=6",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Products/deleteProduct.php?productid=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Products",
+						"deleteProduct.php"
+					],
+					"query": [
+						{
+							"key": "productid",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/Products/getProduct.php?productid=1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/Products/getProduct.php?productid=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"Products",
+						"getProduct.php"
+					],
+					"query": [
+						{
+							"key": "productid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/User/readUser.php",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/User/readUser.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"User",
+						"readUser.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/User/createUser.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"trt@gmail.com\",\r\n    \"password\": \"trt345\",\r\n    \"username\": \"trt456tyg\",\r\n    \"purchasehistory\": \"2 products\",\r\n    \"shippingaddress\": \"Toronto\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/User/createUser.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"User",
+						"createUser.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/User/updateUser.php?userid=2",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"ktchr@gmail.com\",\r\n    \"password\": \"ktc123\",\r\n    \"username\": \"ktc123enr\",\r\n    \"purchasehistory\": \"2 products\",\r\n    \"shippingaddress\": \"kitchener\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/Assignment2/User/updateUser.php?userid=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"User",
+						"updateUser.php"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost/Assignment2/User/deleteUser.php?userid=2",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/Assignment2/User/deleteUser.php?userid=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Assignment2",
+						"User",
+						"deleteUser.php"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

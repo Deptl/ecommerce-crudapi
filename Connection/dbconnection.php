@@ -14,7 +14,7 @@ if(!$connection){
     die("Connection Failed" . "<br>" . mysqli_connect_error());
 }
 else{
-    
+    echo "Connected Successfully!!";
 }
 
 ?>

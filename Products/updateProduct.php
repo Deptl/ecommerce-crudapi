@@ -15,21 +15,19 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 //Checking if the requested method is PUT or not else sending status 405
 if ($requestMethod == "PUT") {
 
+    //Converts json data
     $updateProduct = json_decode(file_get_contents("php://input"), true);
     if(empty($updateProduct)){
         $updateProductData = updateProduct($_POST, $_GET);
     } else {
         $updateProductData = updateProduct($updateProduct, $_GET);
     }
-
     echo $updateProductData;
-
 } else {
     $data = [
         'status' => '405',
         'message' => $requestMethod . ' Method Not Allowed'
     ];
-
     echo json_encode( $data );
 }
 
@@ -41,20 +39,17 @@ function updateProduct($productInput, $updatedParams){
 
     //Checking if the value of productid is not null
     if(!isset($updatedParams['productid'])){
-
         $data = [
             'status' => 422,
-            'message' => "Customer Id not Found"
+            'message' => "Product Id not Found"
         ];
-    
         echo json_encode($data);
     }
     elseif($updatedParams['productid'] == null){
         $data = [
             'status' => 422,
-            'message' => "Enter Customer Id"
+            'message' => "Enter Product Id"
         ];
-    
         echo json_encode($data);
     }
 
@@ -83,20 +78,16 @@ function updateProduct($productInput, $updatedParams){
         
         //If data updated successfully then sending success message with status
         if($result){
-
             $data = [
                 'status' => '200',
                 'message' => 'Product Updated Successfully',
             ];
-
             return json_encode($data);
-
         } else{
             $data = [
                 'status' => '500',
                 'message' => 'Internal Server Error',
             ];
-        
             return json_encode( $data );
         }
     }
@@ -104,13 +95,11 @@ function updateProduct($productInput, $updatedParams){
 
 //Custom function for returning error messages with a specific status code and message
 function errorMessage($errorMessage){
-
     $data = [
         'status' => 422,
         'message' => $errorMessage
     ];
-
-    echo json_encode($data);
+    return json_encode($data);
 }
 
 ?>
